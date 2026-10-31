@@ -1,6 +1,133 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%1$@ can send readings to Dexcom Share, so your followers keep seeing your glucose in the Dexcom Follow app without the Dexcom app on this phone." : {
+      "comment": "Share sign-in explanation (1: appName)"
+    },
+    "%1$@ is connected to the sensor directly and does not need the %2$@ app. A sensor works with only one app at a time, so it will take readings away for as long as it is on this phone. Delete it, or offload it under Settings, General, iPhone Storage." : {
+      "comment": "Body of the settings warning when a Dexcom app is installed in direct mode (1: appName, 2: Dexcom app name)"
+    },
+    "%1$@ is now connected to the sensor directly. Readings arrive every 5 minutes; a new sensor needs about 30 minutes to warm up first." : {
+      "comment": "Body of the pairing success screen (1: appName)"
+    },
+    "%1$@ is reading glucose through the Dexcom app's session, and can keep doing so. If you would rather not depend on the Dexcom app, pair the sensor directly instead: you will need the sensor's 4-digit pairing code, and the Dexcom app has to come off this phone first: delete it, or offload it under Settings, General, iPhone Storage. You can switch back later." : {
+      "comment": "Body of the settings notice offering to pair directly (1: appName)"
+    },
+    "%1$@ will let go of the sensor and read through the Dexcom app's session again. Glucose and sensor alerts then come from the Dexcom app, and %1$@ stops uploading to Dexcom Share. You can pair directly again later with the sensor's code." : {
+      "comment": "Message of the confirmation for switching back to the Dexcom app's session (1: appName)"
+    },
+    "%lld mg/dL" : {},
+    "A new follower receives an email from Dexcom with instructions to sign up for the Dexcom Follow app and accept the invitation. Swipe to remove a follower." : {
+      "comment": "Followers list footer"
+    },
+    "Account" : {
+      "comment": "Row label for the signed-in Dexcom Share account"
+    },
+    "Dexcom emails the invitation. The follower accepts it in the Dexcom Follow app." : {
+      "comment": "Invite follower footer"
+    },
+    "Direct Connection Available (Optional)" : {
+      "comment": "Title of the settings notice offering to pair directly"
+    },
+    "Email address" : {
+      "comment": "Invite follower field placeholder"
+    },
+    "Follower's name" : {
+      "comment": "Invite follower field placeholder"
+    },
+    "Followers" : {
+      "comment": "Navigation title of the followers page\nRow label opening the followers page\nSection header for the followers list"
+    },
+    "High" : {
+      "comment": "Follower alert: high"
+    },
+    "Install the Dexcom app, sign in, and add this sensor with its 4-digit pairing code%1$@. The sensor may take up to 15 minutes to accept the Dexcom app. %2$@ will show readings again once the Dexcom app is connected." : {
+      "comment": "Instructions after switching back to the Dexcom app's session (1: the pairing code, if known; 2: appName)"
+    },
+    "Invitation Failed" : {
+      "comment": "Title of the alert when a follower invitation is refused"
+    },
+    "Invite" : {
+      "comment": "Button title to send a follower invitation"
+    },
+    "Invite Follower" : {
+      "comment": "Navigation title of the invite follower page"
+    },
+    "Last Upload" : {
+      "comment": "Row label for the last Dexcom Share upload time"
+    },
+    "Low" : {
+      "comment": "Follower alert: low"
+    },
+    "No Data (1 hour)" : {
+      "comment": "Follower alert: no data"
+    },
+    "No followers yet." : {
+      "comment": "Followers list: empty"
+    },
+    "Not Now" : {
+      "comment": "Button title to skip Dexcom Share sign-in during setup"
+    },
+    "Now Set Up the Dexcom App" : {
+      "comment": "Title of the instructions after switching back to the Dexcom app's session"
+    },
+    "OK" : {
+      "comment": "Alert acknowledgment button label"
+    },
+    "Password" : {
+      "comment": "Share sign-in field placeholder"
+    },
+    "Region" : {
+      "comment": "Share sign-in server picker label"
+    },
+    "Send readings to Dexcom Share so followers keep seeing your glucose in the Dexcom Follow app." : {
+      "comment": "Dexcom Share section footnote when signed out"
+    },
+    "Sign In" : {
+      "comment": "Button title to sign in to Dexcom Share"
+    },
+    "Sign In to Dexcom Share" : {
+      "comment": "Button title to sign in to Dexcom Share from settings"
+    },
+    "Sign Out" : {
+      "comment": "Button title to sign out of Dexcom Share"
+    },
+    "Sign in with the Dexcom account that owns the sensor. The password is kept in the keychain on this phone only." : {
+      "comment": "Share sign-in: which account, where the password goes"
+    },
+    "Starting Alerts" : {
+      "comment": "Section header for a new follower's initial alert settings"
+    },
+    "Stop the %@ App" : {
+      "comment": "Title of the settings warning when a Dexcom app is installed in direct mode (1: app name)"
+    },
+    "Switch to the Dexcom App" : {
+      "comment": "Confirmation button to switch back to the Dexcom app's session"
+    },
+    "Upload Problem" : {
+      "comment": "Title of the Dexcom Share upload error notice"
+    },
+    "Urgent Low" : {
+      "comment": "Follower alert: urgent low"
+    },
+    "Use with the Dexcom App Instead?" : {
+      "comment": "Title of the confirmation for switching back to the Dexcom app's session"
+    },
+    "Username or email" : {
+      "comment": "Share sign-in field placeholder"
+    },
+    "Waiting for the first reading to upload." : {
+      "comment": "Dexcom Share status before the first upload"
+    },
+    "Your name, as shown to them" : {
+      "comment": "Invite follower field placeholder for the publisher's display name"
+    },
+    "following" : {
+      "comment": "Follower state: active"
+    },
+    "invited" : {
+      "comment": "Follower state: invitation pending"
+    },
     "" : {
       "localizations" : {
         "ar" : {
