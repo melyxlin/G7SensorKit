@@ -599,25 +599,24 @@ extension G7CGMManager {
     /// cache window, and at launch it replays any past-due delayed alert as
     /// immediate until the user acknowledges it. A deleted CGM's scheduled
     /// expiry reminders would keep firing for weeks (LibreLoop #13). The
-    /// retractions are queued on the delegate queue ahead of the deletion
-    /// notification, so they land before Loop releases us. LoopKit's default
-    /// `delete` only notifies, so the notification is re-issued here.
+    /// retractions are awaited before the delegate is asked to delete us.
     public func delete() async {
         cancelSuspectedSessionEndScan()
         // A manager passed its configuration lets go of the sensor and nothing more: the sensor's
         // lifecycle and records belong to the controller that passed it.
-        guard !state.configuredByAnotherController else {
+        if state.configuredByAnotherController {
             sensor.stopScanning()
-            await retractAllLifecycleAlertsAsync()
-            await cgmManagerDelegate?.cgmManagerWantsDeletion(self)
-            return
+        } else {
+            signOutOfShare()
+            sensor.stopScanning()
+            recordSensorEndIfNeeded()
+            archiveCurrentSensor(reason: .deleted)
         }
-        signOutOfShare()
-        sensor.stopScanning()
-        await retractAllLifecycleAlertsAsync()
-        recordSensorEndIfNeeded()
-        archiveCurrentSensor(reason: .deleted)
-        await cgmManagerDelegate?.cgmManagerWantsDeletion(self)
+        let delegate = cgmManagerDelegate
+        for alert in G7LifecycleAlert.allCases {
+            await delegate?.retractAlert(identifier: alert.identifier(managerIdentifier: pluginIdentifier))
+        }
+        await delegate?.cgmManagerWantsDeletion(self)
     }
 
     // MARK: - Session events
@@ -767,16 +766,6 @@ extension G7CGMManager {
 
     private func retractAllLifecycleAlerts() {
         G7LifecycleAlert.allCases.forEach(retractLifecycleAlert)
-    }
-
-    /// Waits for lifecycle alerts to be retracted before removing the CGM.
-    private func retractAllLifecycleAlertsAsync() async {
-        let delegate = cgmManagerDelegate
-        for alert in G7LifecycleAlert.allCases {
-            await delegate?.retractAlert(
-                identifier: alert.identifier(managerIdentifier: pluginIdentifier)
-            )
-        }
     }
 
     /// (Re)schedules the session-timed alerts for the current sensor and
