@@ -8,7 +8,6 @@
 
 import Foundation
 import HealthKit
-import LoopAlgorithm
 import LoopKit
 import os.log
 
@@ -603,22 +602,22 @@ extension G7CGMManager {
     /// retractions are queued on the delegate queue ahead of the deletion
     /// notification, so they land before Loop releases us. LoopKit's default
     /// `delete` only notifies, so the notification is re-issued here.
-    public func delete(completion: @escaping () -> Void) {
+    public func delete() async {
         cancelSuspectedSessionEndScan()
         // A manager passed its configuration lets go of the sensor and nothing more: the sensor's
         // lifecycle and records belong to the controller that passed it.
         guard !state.configuredByAnotherController else {
             sensor.stopScanning()
-            retractAllLifecycleAlerts()
-            notifyDelegateOfDeletion(completion: completion)
+            await retractAllLifecycleAlertsAsync()
+            await cgmManagerDelegate?.cgmManagerWantsDeletion(self)
             return
         }
         signOutOfShare()
         sensor.stopScanning()
-        retractAllLifecycleAlerts()
+        await retractAllLifecycleAlertsAsync()
         recordSensorEndIfNeeded()
         archiveCurrentSensor(reason: .deleted)
-        notifyDelegateOfDeletion(completion: completion)
+        await cgmManagerDelegate?.cgmManagerWantsDeletion(self)
     }
 
     // MARK: - Session events
@@ -768,6 +767,16 @@ extension G7CGMManager {
 
     private func retractAllLifecycleAlerts() {
         G7LifecycleAlert.allCases.forEach(retractLifecycleAlert)
+    }
+
+    /// Waits for lifecycle alerts to be retracted before removing the CGM.
+    private func retractAllLifecycleAlertsAsync() async {
+        let delegate = cgmManagerDelegate
+        for alert in G7LifecycleAlert.allCases {
+            await delegate?.retractAlert(
+                identifier: alert.identifier(managerIdentifier: pluginIdentifier)
+            )
+        }
     }
 
     /// (Re)schedules the session-timed alerts for the current sensor and

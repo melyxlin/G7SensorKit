@@ -240,13 +240,11 @@ class G7UICoordinator: UINavigationController, CGMManagerOnboarding, CompletionN
                     // `delete`, not `notifyDelegateOfDeletion`: the manager's
                     // own teardown retracts its standing alerts first, and Loop
                     // replays anything left behind at every launch.
-                    self?.cgmManager?.delete {
-                        DispatchQueue.main.async {
-                            if let self = self {
-                                self.completionDelegate?.completionNotifyingDidComplete(self)
-                                self.dismiss(animated: true)
-                            }
-                        }
+                    Task { @MainActor [weak self] in
+                        guard let self, let manager = self.cgmManager else { return }
+                        await manager.delete()
+                        self.completionDelegate?.completionNotifyingDidComplete(self)
+                        self.dismiss(animated: true)
                     }
                 },
                 pairNewSensor: { [weak self] in self?.beginPairingFlow(newSensor: true) },
